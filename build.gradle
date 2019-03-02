@@ -1,0 +1,26 @@
+group 'de.seibushin'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "de.seibushin.webSnap.Main"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.jsoup:jsoup:1.10.2'
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'AmazonSnap',
+                'Implementation-Version': version,
+                'Main-Class': 'de.seibushin.webSnap.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
